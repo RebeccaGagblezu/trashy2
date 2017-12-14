@@ -16,6 +16,32 @@
     font-weight: 700;
  }
 
+ #head{
+     background: linear-gradient(rgb(0, 10, 9),rgba(28,185,159,0.7)),
+     url(../images/wasteSeperation.jpeg) top center fixed no-repeat;
+     background-size: cover;
+     min-height: 100vh;
+
+ }
+
+ .headText{
+     font-size: 200px;
+    color: #fff;
+    text-align: center;
+    padding: 20px 20px;
+    font-family: 'Amatic SC', cursive;
+    padding-top: 100px;
+ }
+
+ .headTextP{
+     color: #fff;
+    text-align: center;
+     font-family: 'Amatic SC', cursive;
+     font-size: 25px;
+     background-color: #1cb99f;
+        padding: 10px 0px;
+ }
+
  #headerMobile{
      height: 100vh;
      background-color: #1cb99f;
@@ -24,10 +50,14 @@
     background-size: cover;
  }
  
- .welcome{
-     background-color: #1cb99f;
-  
-    flex-shrink: 0;
+.welcome{
+     /*background: linear-gradient(rgba(28,185,159,0.7),rgba(28,185,159,0.7)),
+     url(../images/wasteSeperation.jpeg) top center fixed no repeat;
+     background-size: cover;
+        background-color: #1cb99f;
+        }
+  */
+     flex-shrink: 0;
     height: 800px;
     min-height: 100vh;
     display: -webkit-box;
@@ -78,7 +108,7 @@
 }
 
  .navbar-default {
-    background-color: #000000bf;
+    background-color: #000;
     border-color: #0cbaa5;
     color: #fff !important;
     border-bottom-width: thick;
