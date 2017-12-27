@@ -58,7 +58,8 @@
             <li><a href="#">A separated link</a></li>
           </ul>
         </li>-->
-        <li class="uploadNav page-scroll"><a href="#">Upload</a></li>
+        <li class="uploadNav page-scroll"><a href="" type="button" data-toggle="modal" data-target="#uploadModal">Upload</a></li>
+        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong"> -->
       </ul>
       
   
@@ -295,30 +296,30 @@
         </div>
 
         <div class="col-md-6 conDiv">
-            <form role="form">
+            <form role="form" action="php/contact.php" method="POST">
               <div class="row">
                   <div class="col-md-6">
                       <div class="form-group">
-                          <input type="text" class="input-md form-control" placeholder="First Name">
+                          <input type="text" class="input-lg form-control" placeholder="First name" name="firstname">
                       </div>
                   </div>
                   <div class="col-md-6">
                       <div class="form-group">
-                          <input type="text" class="input-md form-control" placeholder="Surname ">
+                          <input type="text" class="input-lg form-control" placeholder="Last name " name="lastname">
                       </div>
                   </div>
               </div>  
               <div class="row">
                   <div class="col-md-12">
                       <div class="form-group">
-                          <input type="text" class="input-md form-control" placeholder="Subject">
+                          <input type="text" class="input-lg form-control" placeholder="Subject" name="subject">
                       </div>
                   </div>
               </div>  
               <div class="row">
                   <div class="col-md-12">
                       <div class="form-group">
-                      <textarea class="input-md form-control" placeholder="Message" style="height: 200px"></textarea>
+                      <textarea class="input-md form-control" placeholder="Message" style="height: 200px" name="message"></textarea>
                           <!-- <input type="text" class="input-md form-control" placeholder=""> -->
                       </div>
                   </div>
@@ -337,6 +338,91 @@
     </div>
     </div>
 </section>
+<!-- Upload modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="UploadTitle">Fill the form to submit your product</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      <form role="form" action="php/upload.php" method="post" id="uploadform">
+      
+    
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6">
+          <div class="form-group">
+                        <input type="text" name="first_name" id="first_name" class="form-control input-lg" placeholder="First Name" tabindex="1">
+          </div>
+        </div>
+
+
+
+        <div class="col-xs-12 col-sm-6 col-md-6">
+          <div class="form-group">
+            <input type="text" name="last_name" id="last_name" class="form-control input-lg" placeholder="Last Name" tabindex="2">
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="form-group">
+        <input type="text" name="prod_name" id="display_name" class="form-control input-lg" placeholder="Product Name" tabindex="3">
+      </div>
+      <div class="form-group">
+        <input type="number" name="mobile" id="mobile" class="form-control input-lg" placeholder="Mobile Number" tabindex="4">
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-12">
+          <div class="form-group">
+            <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email" >
+          </div>
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-12">
+          <div class="form-group">
+            <select name="prod_cat" class="input-lg">  
+            <option> GLASS BOTTLE </option>
+              <option> SACHET </option>
+              <option> METAL </option>
+              <option> RUBBER BOTTLE </option>
+            </select>
+          </div>
+        </div>
+        
+      </div>
+
+     <!--  <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+          <div class="form-group">
+            <input id="input-id" type="file" class="file input-lg" data-preview-file-type="text" name="prod_image">
+          </div>
+        </div>
+        
+      </div> -->
+
+      
+      
+      
+      
+      
+    </form>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" name="save" id="uploadSubmit">Submit</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</div>
 <div id="footer">   
 <div class="container">
 <div class="row"> 
@@ -351,9 +437,43 @@
 
 
 <!--JavaScript-->
+
+
+
         <script src="js/jquery-3.2.1.min.js"></script>
         <!--<script src="js/jquery-migrate-3.0.1.min.js"></script>-->
         <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
+
+        <script>
+/* must apply only after HTML has loaded */
+$(document).ready(function () {
+    $("#uploadform").on("submit", function(e) {
+        var postData = $(this).serializeArray();
+        var formURL = $(this).attr("action");
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function(data, textStatus, jqXHR) {
+                $('#contact_dialog .modal-header .modal-title').html("Result");
+                $('#contact_dialog .modal-body').html(data);
+                $("#uploadSubmit").remove();
+            },
+            error: function(jqXHR, status, error) {
+                console.log(status + ": " + error);
+            }
+        });
+        e.preventDefault();
+    });
+     
+    $("#uploadSubmit").on('click', function() {
+        $("#uploadform").submit();
+    });
+});
+</script>
+
+
         <script src="lib/easing/jquery.easing.1.3.js"></script>
         <script src="js/main.js"> </script>
         <script src="js/jquery.smartmenus.min.js"></script>
